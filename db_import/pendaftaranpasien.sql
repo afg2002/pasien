@@ -34,7 +34,7 @@ CREATE TABLE `apoteker` (
   `jumlah_obat` int NOT NULL,
   `jenis_obat` varchar(50) NOT NULL,
   `status` enum('Tebus','Tidak Tebus') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -47,7 +47,7 @@ CREATE TABLE `dokter` (
   `nama_dokter` varchar(70) NOT NULL,
   `pangkat` varchar(50) NOT NULL,
   `shift` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `dokter`
@@ -77,7 +77,7 @@ CREATE TABLE `hasil_pemeriksaan` (
   `id_pasien` int NOT NULL,
   `tensi_darah` varchar(50) NOT NULL,
   `hasil_diagnosa_sementara` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `hasil_pemeriksaan`
@@ -101,7 +101,7 @@ CREATE TABLE `jadwal_dokter` (
   `ruangan` int NOT NULL,
   `jenis_pelayanan` varchar(60) NOT NULL,
   `keterangan` varchar(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `jadwal_dokter`
@@ -130,7 +130,7 @@ CREATE TABLE `kasir` (
   `total_biaya` int NOT NULL,
   `cash` int NOT NULL,
   `kembalian` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `kasir`
@@ -158,7 +158,7 @@ CREATE TABLE `pasien` (
   `nik_pendamping` varchar(40) NOT NULL,
   `nohp_pendamping` varchar(20) NOT NULL,
   `alamat_pendamping` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `pasien`
@@ -191,7 +191,7 @@ CREATE TABLE `resep` (
   `dosis` varchar(60) NOT NULL,
   `aturan_pakai` varchar(60) NOT NULL,
   `catatan` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `resep`
@@ -215,7 +215,7 @@ INSERT INTO `resep` (`id_resep`, `id_pasien`, `id_dokter`, `tanggal_resep`, `oba
 CREATE TABLE `user` (
   `username` varchar(30) NOT NULL,
   `password` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user`
