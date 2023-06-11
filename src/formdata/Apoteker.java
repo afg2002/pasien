@@ -6,47 +6,111 @@ package formdata;
 
 import helper.database;
 import helper.reset;
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author afgha
  */
 public class Apoteker extends javax.swing.JFrame {
+    
+    ArrayList<String> selectedValues = new ArrayList<>();
+
     private Connection conn = new helper.database().connect();
     database db = new database();
     private DefaultTableModel tabmode;
     reset rst = new reset();
-    String table = "dokter";
-    String[] columns = {"id_dokter","nama_dokter","pangkat","shift"};
-    String[] columnsUpdate = {"nama_dokter","pangkat","shift"};
+    String table = "apoteker";
+    String[] columns = {"id_apoteker", "id_pasien", "keluhan","jumlah_obat", "jenis_obat", "status"};
+    String[] columnsUpdate = {"id_pasien", "keluhan","jumlah_obat", "jenis_obat", "status"};
     
     public Apoteker() {
         initComponents();
         datatable();
+        tIdApoteker.setEditable(true);
+        cbTablet.addActionListener(e -> {
+        if (cbTablet.isSelected()) {
+                selectedValues.add(cbTablet.getText());
+            } else {
+                selectedValues.remove(cbTablet.getText());
+            }
+        });
+
+        cbSyrup.addActionListener(e -> {
+            if (cbSyrup.isSelected()) {
+                selectedValues.add(cbSyrup.getText());
+            } else {
+                selectedValues.remove(cbSyrup.getText());
+            }
+        });
+
+        cbKaplet.addActionListener(e -> {
+            if (cbKaplet.isSelected()) {
+                selectedValues.add(cbKaplet.getText());
+            } else {
+                selectedValues.remove(cbKaplet.getText());
+            }
+        });
+        
+        cbPuyer.addActionListener(e -> {
+            if (cbPuyer.isSelected()) {
+                selectedValues.add(cbPuyer.getText());
+            } else {
+                selectedValues.remove(cbPuyer.getText());
+            }
+        });
     }
     
+    // Append value to array    
+    public static String[] appendToArray(String value, String[] array) {
+        String[] newArray = new String[array.length + 1];
+        
+        for (int i = 0; i < array.length; i++) {
+            newArray[i] = array[i];
+        }
+        
+        newArray[newArray.length - 1] = value;
+        return newArray;
+    }
+    
+    
      protected void datatable(){
-         Object[] Baris = {"ID ","Nama ","Pangkat","Shift"};
+        Object[] Baris = {"ID Apoteker ","ID Pasien","Nama Pasien","Keluhan","Jumlah Obat", "Jenis Obat", "Status"};
         tabmode  = new DefaultTableModel(null, Baris);
-        tDokter.setModel(tabmode);
-        String sql = "select * from dokter";
+        tApoteker.setModel(tabmode);
+        String sql = "SELECT apoteker.id_apoteker,pasien.id_pasien, pasien.nama_pasien, pasien.Keluhan, apoteker.jumlah_obat, apoteker.jenis_obat, apoteker.status FROM apoteker INNER JOIN pasien ON apoteker.id_pasien = pasien.id_pasien";
         try{
             Statement stat = conn.createStatement();
             ResultSet res = stat.executeQuery(sql);
             while(res.next()){
-                String a = res.getString("id_dokter");
-                String b= res.getString("nama_dokter");
-                String d= res.getString("pangkat");
-                String e = res.getString("shift");
-                String[] data = {a,b,d,e};
+                String a = res.getString("apoteker.id_apoteker");
+                String b= res.getString("nama_pasien");
+                String d= res.getString("keluhan");
+                String e = res.getString("jumlah_obat");
+                String f = res.getString("jenis_obat");
+                String g = res.getString("status");
+                String h = res.getString("id_pasien");
+                String[] data = {a,h,b,d,e,f,g};
                 tabmode.addRow(data);
             }
         } catch (SQLException ex) {
@@ -68,17 +132,27 @@ public class Apoteker extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        tIdDokter = new javax.swing.JTextField();
-        tNamaDokter = new javax.swing.JTextField();
+        tIdPasien = new javax.swing.JTextField();
+        tKeluhan = new javax.swing.JTextField();
         bTambah = new javax.swing.JButton();
         bEdit = new javax.swing.JButton();
         bReset = new javax.swing.JButton();
         bHapus = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tDokter = new javax.swing.JTable();
-        cPangkat = new javax.swing.JComboBox<>();
+        tApoteker = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
-        cShift = new javax.swing.JComboBox<>();
+        bCariPasien = new javax.swing.JButton();
+        tJumlahObat = new javax.swing.JTextField();
+        cbTablet = new javax.swing.JCheckBox();
+        cbKaplet = new javax.swing.JCheckBox();
+        cbSyrup = new javax.swing.JCheckBox();
+        cbPuyer = new javax.swing.JCheckBox();
+        jLabel8 = new javax.swing.JLabel();
+        cStatus = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        tIdApoteker = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        tNamaPasien = new javax.swing.JTextField();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -93,14 +167,14 @@ public class Apoteker extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/hestiwirasakti..jpg"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("Kasir");
+        jLabel1.setText("Apoteker");
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/jayakarta-resized-removebg-preview.png"))); // NOI18N
 
@@ -130,13 +204,18 @@ public class Apoteker extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel3.setText("ID Dokter");
+        jLabel3.setText("ID Pasien");
 
-        jLabel4.setText("Nama Dokter");
+        jLabel4.setText("Keluhan");
 
-        jLabel5.setText("Pangkat");
+        jLabel5.setText("Jumlah Obat");
 
-        tIdDokter.setEnabled(false);
+        tKeluhan.setEnabled(false);
+        tKeluhan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tKeluhanActionPerformed(evt);
+            }
+        });
 
         bTambah.setText("Tambah");
         bTambah.addActionListener(new java.awt.event.ActionListener() {
@@ -166,7 +245,7 @@ public class Apoteker extends javax.swing.JFrame {
             }
         });
 
-        tDokter.setModel(new javax.swing.table.DefaultTableModel(
+        tApoteker.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -177,18 +256,83 @@ public class Apoteker extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tDokter.addMouseListener(new java.awt.event.MouseAdapter() {
+        tApoteker.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tDokterMouseClicked(evt);
+                tApotekerMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(tDokter);
+        jScrollPane3.setViewportView(tApoteker);
 
-        cPangkat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=== Pilih Pangkat ===", "II/a", "II/b", "II/c", "II/d", "III/a", "III/b", "IV/a", "IV/b", "IV/c" }));
+        jLabel6.setText("Jenis Obat");
 
-        jLabel6.setText("Shift");
+        bCariPasien.setText("Cari");
+        bCariPasien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCariPasienActionPerformed(evt);
+            }
+        });
 
-        cShift.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=== Pilih Shift ===", "Pagi", "Siang", "Malam", " " }));
+        tJumlahObat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tJumlahObatActionPerformed(evt);
+            }
+        });
+
+        cbTablet.setText("Tablet");
+        cbTablet.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbTabletItemStateChanged(evt);
+            }
+        });
+        cbTablet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTabletActionPerformed(evt);
+            }
+        });
+
+        cbKaplet.setText("Kaplet");
+        cbKaplet.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbKapletItemStateChanged(evt);
+            }
+        });
+        cbKaplet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbKapletActionPerformed(evt);
+            }
+        });
+
+        cbSyrup.setText("Syrup");
+        cbSyrup.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbSyrupItemStateChanged(evt);
+            }
+        });
+        cbSyrup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSyrupActionPerformed(evt);
+            }
+        });
+
+        cbPuyer.setText("Puyer");
+        cbPuyer.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbPuyerItemStateChanged(evt);
+            }
+        });
+        cbPuyer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbPuyerActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Status");
+
+        cStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=== Pilih Status ===", "Tebus", "Tidak Tebus" }));
+
+        jLabel9.setText("ID Apoteker");
+
+        jLabel10.setText("Nama Pasien");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,25 +343,43 @@ public class Apoteker extends javax.swing.JFrame {
                 .addContainerGap(21, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(39, 39, 39)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tIdDokter, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-                            .addComponent(tNamaDokter, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-                            .addComponent(cPangkat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cShift, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(bTambah)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bEdit)
                         .addGap(18, 18, 18)
                         .addComponent(bHapus)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bReset)))
+                        .addComponent(bReset))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel9))
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tIdPasien, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bCariPasien))
+                            .addComponent(tIdApoteker, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tNamaPasien, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(tKeluhan)
+                                .addComponent(tJumlahObat)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(cbKaplet)
+                                        .addComponent(cbTablet))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(cbSyrup)
+                                        .addComponent(cbPuyer)))
+                                .addComponent(cStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(89, 89, 89)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
@@ -229,146 +391,222 @@ public class Apoteker extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 41, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tIdApoteker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))
+                        .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(tIdDokter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tIdPasien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bCariPasien))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(tNamaPasien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(tNamaDokter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tKeluhan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(cPangkat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tJumlahObat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cbTablet)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbKaplet))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cbPuyer)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbSyrup)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cShift, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addGap(50, 50, 50)
+                            .addComponent(cStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bTambah)
                             .addComponent(bEdit)
                             .addComponent(bReset)
-                            .addComponent(bHapus)))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                            .addComponent(bHapus))))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void bHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bHapusActionPerformed
-        String id_dokter = tIdDokter.getText();
+        String id_apoteker = tIdApoteker.getText();
         try {
-            String condition = "id_dokter = " + id_dokter;
-            db.deleteData(conn, "dokter", condition);
+            String condition = "id_apoteker = " + id_apoteker;
+            db.deleteData(conn, "apoteker", condition);
             datatable();
             reset();
-
         } catch (SQLException ex) {
-            Logger.getLogger(Apoteker.class.getName()).log(Level.SEVERE, null, ex);
-
+            Logger.getLogger(Dokter.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }//GEN-LAST:event_bHapusActionPerformed
 
     private void bEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEditActionPerformed
-        String id_dokter = tIdDokter.getText();
-        String nama_dokter = tNamaDokter.getText();
-        String pangkat = (String) cPangkat.getSelectedItem();
-        String shift = (String) cShift.getSelectedItem();
-        Object[] values = {nama_dokter, pangkat, shift};
-        String condition = "id_dokter = " + id_dokter; //
-        System.out.println(condition);
+       String delimiter = ",";
+        
+        StringBuilder sb = new StringBuilder(); 
+        
+        for (int i = 0; i < selectedValues.size(); i++) {
+            sb.append(selectedValues.get(i));
+            
+            if (i < selectedValues.size() - 1) {
+                sb.append(delimiter);
+            }
+        }
+        
+       String jenisObat = sb.toString();
+        
+       String id_apoteker = tIdApoteker.getText();
+       String id_pasien = tIdPasien.getText();
+       String keluhan = tKeluhan.getText();
+       String jumlah_obat = tJumlahObat.getText();
+       String status = (String)cStatus.getSelectedItem();
+       Object[] values = {id_pasien, keluhan, jumlah_obat,jenisObat, status};
+       String condition = "id_apoteker= " + id_apoteker; //
+       
         try {
             // Memanggil fungsi updateData
             db.updateData(conn, table, columnsUpdate, values, condition);
             datatable();
             reset();
         } catch (SQLException ex) {
-            Logger.getLogger(Apoteker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Dokter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bEditActionPerformed
 
     private void bTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTambahActionPerformed
-        String id_dokter = tIdDokter.getText();
-        String nama_dokter = tNamaDokter.getText();
-        String pangkat = (String) cPangkat.getSelectedItem();
-        String shift = (String) cShift.getSelectedItem();
-
-        Object[] values = {"0", nama_dokter,pangkat,shift};
+        String delimiter = ",";
+        
+        StringBuilder sb = new StringBuilder(); 
+        
+        for (int i = 0; i < selectedValues.size(); i++) {
+            sb.append(selectedValues.get(i));
+            
+            if (i < selectedValues.size() - 1) {
+                sb.append(delimiter);
+            }
+        }
+        
+        String id_pasien = tIdPasien.getText();
+        String jumlah_obat = tJumlahObat.getText();
+        String status = (String) cStatus.getSelectedItem();
+        String keluhan = tKeluhan.getText();
+        
+        String jenisObat = sb.toString();
+        
+        Object[] values = {"0", id_pasien, keluhan,jumlah_obat,jenisObat, status};
         try {
             db.insertData(conn, table, columns, values);
             datatable();
             reset();
-
         } catch (SQLException ex) {
-            Logger.getLogger(Apoteker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Dokter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bTambahActionPerformed
 
-    private void tDokterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tDokterMouseClicked
-        int selectedRowIndex =  tDokter.getSelectedRow();
+    private void tApotekerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tApotekerMouseClicked
+        int selectedRowIndex =  tApoteker.getSelectedRow();
         String a = tabmode.getValueAt(selectedRowIndex, 0).toString();
         String b = tabmode.getValueAt(selectedRowIndex, 1).toString();
         String c = tabmode.getValueAt(selectedRowIndex, 2).toString();
         String d = tabmode.getValueAt(selectedRowIndex, 3).toString();
-
-        tIdDokter.setText(a);
-        tNamaDokter.setText(b);
-        cPangkat.setSelectedItem(c);
-        cShift.setSelectedItem(d);
-    }//GEN-LAST:event_tDokterMouseClicked
+        String e = tabmode.getValueAt(selectedRowIndex, 4).toString();
+//        String f = tabmode.getValueAt(selectedRowIndex, 5).toString();
+        String f = tabmode.getValueAt(selectedRowIndex, 6).toString();
+        
+        tIdApoteker.setText(a);
+        tIdPasien.setText(b);
+        tNamaPasien.setText(c);
+        tKeluhan.setText(d);
+        tJumlahObat.setText(e);
+        cStatus.setSelectedItem(f);
+        tIdApoteker.setEditable(false);
+    }//GEN-LAST:event_tApotekerMouseClicked
 
     private void bResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResetActionPerformed
         reset();
     }//GEN-LAST:event_bResetActionPerformed
-    void reset(){
+
+    private void bCariPasienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCariPasienActionPerformed
+        // TODO add your handling code here:
+        String id_pasien = tIdPasien.getText();
+        
+        // Query Find pasien by Id
+        String sql = "SELECT nama_pasien, keluhan FROM pasien WHERE id_pasien = " + id_pasien;
+        try {
+            Statement stat = conn.createStatement();
+            ResultSet res = stat.executeQuery(sql);
+            while(res.next()){
+                String keluhan = res.getString("keluhan");
+                String nama_pasien = res.getString("nama_pasien");
+                tKeluhan.setText(keluhan);
+                tNamaPasien.setText(nama_pasien);
+            }
+        } catch (SQLException ex){
+            Logger.getLogger(hasilPemeriksaan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bCariPasienActionPerformed
+
+    private void tKeluhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tKeluhanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tKeluhanActionPerformed
+
+    private void tJumlahObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tJumlahObatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tJumlahObatActionPerformed
+
+    private void cbTabletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTabletActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbTabletActionPerformed
+
+    private void cbKapletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbKapletActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbKapletActionPerformed
+
+    private void cbSyrupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSyrupActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbSyrupActionPerformed
+
+    private void cbPuyerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPuyerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbPuyerActionPerformed
+
+    private void cbTabletItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTabletItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbTabletItemStateChanged
+
+    private void cbKapletItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbKapletItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbKapletItemStateChanged
+
+    private void cbPuyerItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbPuyerItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbPuyerItemStateChanged
+
+    private void cbSyrupItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbSyrupItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbSyrupItemStateChanged
+        void reset(){
         rst.resetTextFields(this.getContentPane());
-        cPangkat.setSelectedIndex(0);
-        cShift.setSelectedIndex(0);
     }
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Apoteker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Apoteker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Apoteker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Apoteker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
+     
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -378,26 +616,36 @@ public class Apoteker extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bCariPasien;
     private javax.swing.JButton bEdit;
     private javax.swing.JButton bHapus;
     private javax.swing.JButton bReset;
     private javax.swing.JButton bTambah;
     private javax.swing.ButtonGroup bgPembayaran;
-    private javax.swing.JComboBox<String> cPangkat;
-    private javax.swing.JComboBox<String> cShift;
+    private javax.swing.JComboBox<String> cStatus;
+    private javax.swing.JCheckBox cbKaplet;
+    private javax.swing.JCheckBox cbPuyer;
+    private javax.swing.JCheckBox cbSyrup;
+    private javax.swing.JCheckBox cbTablet;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable tDokter;
-    private javax.swing.JTextField tIdDokter;
-    private javax.swing.JTextField tNamaDokter;
+    private javax.swing.JTable tApoteker;
+    private javax.swing.JTextField tIdApoteker;
+    private javax.swing.JTextField tIdPasien;
+    private javax.swing.JTextField tJumlahObat;
+    private javax.swing.JTextField tKeluhan;
+    private javax.swing.JTextField tNamaPasien;
     // End of variables declaration//GEN-END:variables
 }

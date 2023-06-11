@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4e5e3ffe-b5c5-4e0f-b82a-d368780b5882">
+	<property name="ireport.zoom" value="1.4641000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="id_invoice" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT a.id_invoice, a.id_pasien, b.nama_pasien, a.tagihan_pasien, a.total_biaya,a.cash,a.kembalian FROM kasir as a INNER JOIN pasien as b WHERE id_invoice = $P{id_invoice}]]>
+	</queryString>
+	<field name="id_invoice" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_pasien" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nama_pasien" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tagihan_pasien" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_biaya" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cash" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="kembalian" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="163" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="213" y="38" width="138" height="21" uuid="82eaf09c-216a-4101-bffa-724442df7921"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Rumah Sakit TK IV Cijantung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="250" y="76" width="66" height="22" uuid="83d5dd59-d0d9-4ef3-8dec-0695cbc43788"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Gedong]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="156" y="98" width="249" height="42" uuid="5a8666a0-12d7-468d-9d66-b20627c752ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Gedong, Kec. Ps. Rebo, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Title" x="194" y="15" width="177" height="23" uuid="b9991f7c-2936-4d61-814b-bf698534a618"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[BUKTI PEMBAYARAN]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="5" y="148" width="555" height="1" uuid="c49124b0-0cf3-4905-b283-f951ae464f0f"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="178" splitType="Stretch">
+			<rectangle>
+				<reportElement x="8" y="0" width="256" height="174" uuid="e97bf367-31a5-4c37-ba44-818ce7c552b0"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="13" y="23" width="100" height="20" uuid="2e95b8cf-a547-4c65-8791-9d375a361653"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Invoice]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="299" y="0" width="256" height="174" uuid="2da1ab3e-8864-45a6-8d4f-2bd5ccfae61e"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="13" y="57" width="100" height="20" uuid="50567974-cc46-45a0-a6be-5c0eff1b0191"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Pasien]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="133" width="100" height="20" uuid="d5a82682-782f-4c05-8a28-d5ce5608da44"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tagihan Pasien]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="305" y="23" width="100" height="20" uuid="3285ec5d-87e6-4e99-ba71-2037240466a2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Biaya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="305" y="57" width="100" height="20" uuid="6195da2b-a72b-4fea-855f-2102a2930d62"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cash]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="305" y="97" width="100" height="20" uuid="e3f75cc7-6dcc-4f71-b4a6-d3126a9db92b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kembalian]]></text>
+			</staticText>
+			<line>
+				<reportElement style="Title" x="8" y="48" width="256" height="1" uuid="7bb7dc35-cdf1-42dd-a3db-fd21150e61de"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement style="Title" x="8" y="86" width="254" height="1" uuid="6b3f9ec4-5bb2-47ba-aacc-808e28ff5bbe"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement style="Title" x="8" y="123" width="259" height="1" uuid="b0625b17-de24-4e48-98dd-c8319afe7065"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement style="Title" x="8" y="156" width="254" height="1" uuid="6ff2bfde-18fd-4783-8072-7dc298b0a541"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement style="Title" x="299" y="49" width="256" height="1" uuid="eb57ef36-fc2a-4524-b693-e400ee43f894"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement style="Title" x="299" y="87" width="256" height="1" uuid="57ee962f-36c4-4df5-ac52-4d634c51f6bc"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement style="Title" x="299" y="122" width="256" height="1" uuid="356973f0-78b3-442c-936b-4e6b41574435"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="13" y="97" width="100" height="20" uuid="06f01ffc-434f-485c-9fc1-d82ffdacfada"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Pasien]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="113" y="57" width="100" height="20" uuid="b0691d12-fb96-4423-b589-2b950dd16e5d"/>
+				<textFieldExpression><![CDATA[$F{id_pasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="23" width="100" height="20" uuid="4c3ab76c-1b57-45cc-bfaa-5d03486d025c"/>
+				<textFieldExpression><![CDATA[$F{id_invoice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="97" width="100" height="20" uuid="6110a88c-f160-47a9-b4e0-812603fda99b"/>
+				<textFieldExpression><![CDATA[$F{nama_pasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="133" width="100" height="20" uuid="74a5265c-c6e8-4029-990d-37feb8f03197"/>
+				<textFieldExpression><![CDATA[$F{tagihan_pasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="405" y="23" width="100" height="20" uuid="b34a1f8c-0373-41a3-af50-f3eb08a24bdd"/>
+				<textFieldExpression><![CDATA[$F{total_biaya}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="405" y="57" width="100" height="20" uuid="f1a1fbc9-3491-4e06-bf36-9988b19b9c6d"/>
+				<textFieldExpression><![CDATA[$F{cash}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="405" y="97" width="100" height="20" uuid="b92f0100-0921-46b1-a042-b76e239d82e7"/>
+				<textFieldExpression><![CDATA[$F{kembalian}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="124" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

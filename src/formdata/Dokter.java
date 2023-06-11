@@ -10,10 +10,19 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -79,6 +88,8 @@ public class Dokter extends javax.swing.JFrame {
         cPangkat = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         cShift = new javax.swing.JComboBox<>();
+        bReset1 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -93,7 +104,7 @@ public class Dokter extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -190,6 +201,15 @@ public class Dokter extends javax.swing.JFrame {
 
         cShift.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=== Pilih Shift ===", "Pagi", "Siang", "Malam", " " }));
 
+        bReset1.setText("Cetak");
+
+        jButton1.setText("Cetak");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -219,8 +239,15 @@ public class Dokter extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bReset)))
                 .addGap(89, 89, 89)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(bReset1)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,7 +278,14 @@ public class Dokter extends javax.swing.JFrame {
                             .addComponent(bReset)
                             .addComponent(bHapus)))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(19, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(bReset1)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
@@ -297,7 +331,7 @@ public class Dokter extends javax.swing.JFrame {
     }//GEN-LAST:event_bEditActionPerformed
 
     private void bHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bHapusActionPerformed
-        String id_dokter = tIdDokter.getText();
+        int id_dokter = Integer.parseInt(tIdDokter.getText());
         try {
             String condition = "id_dokter = " + id_dokter;
             db.deleteData(conn, "dokter", condition);
@@ -326,6 +360,20 @@ public class Dokter extends javax.swing.JFrame {
         cPangkat.setSelectedItem(c);
         cShift.setSelectedItem(d);
     }//GEN-LAST:event_tDokterMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String path =".\\src\\laporan\\datadokter.jasper";
+        JasperReport reports; 
+        try {
+            reports = (JasperReport) JRLoader.loadObjectFromFile(path);
+            JasperPrint jprint = JasperFillManager.fillReport(path, null,conn);
+            JasperViewer jviewer = new JasperViewer(jprint,false);
+            jviewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            jviewer.setVisible(true);
+        } catch (JRException ex) {
+            Logger.getLogger(Dokter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -369,10 +417,12 @@ public class Dokter extends javax.swing.JFrame {
     private javax.swing.JButton bEdit;
     private javax.swing.JButton bHapus;
     private javax.swing.JButton bReset;
+    private javax.swing.JButton bReset1;
     private javax.swing.JButton bTambah;
     private javax.swing.ButtonGroup bgPembayaran;
     private javax.swing.JComboBox<String> cPangkat;
     private javax.swing.JComboBox<String> cShift;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

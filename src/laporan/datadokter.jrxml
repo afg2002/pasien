@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4e5e3ffe-b5c5-4e0f-b82a-d368780b5882">
+	<property name="ireport.zoom" value="1.4641000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT * FROM DOKTER]]>
+	</queryString>
+	<field name="id_dokter" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nama_dokter" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pangkat" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="shift" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="167" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="109" y="0" width="344" height="51" uuid="82eaf09c-216a-4101-bffa-724442df7921"/>
+				<textElement verticalAlignment="Middle">
+					<font size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Rumah Sakit TK IV Cijantung]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="245" y="51" width="66" height="22" uuid="83d5dd59-d0d9-4ef3-8dec-0695cbc43788"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Gedong]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="156" y="73" width="249" height="42" uuid="5a8666a0-12d7-468d-9d66-b20627c752ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Gedong, Kec. Ps. Rebo, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="136" width="180" height="22" uuid="f3a31a9a-87f6-4c38-a31f-9a1cb5eb27c0"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN DATA PASIEN]]></text>
+			</staticText>
+			<line>
+				<reportElement x="194" y="156" width="194" height="1" uuid="6b12f272-f705-4b2b-925f-996c806c7d15"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="c49124b0-0cf3-4905-b283-f951ae464f0f"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="125" y="0" width="84" height="16" uuid="972924c8-ee5a-47db-808b-5cffd65e505f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Dokter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="0" width="71" height="17" uuid="e7693706-c265-4bb7-9084-e986b09aa5fe"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Dokter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="1" width="46" height="16" uuid="f17c8b2a-ae4a-4ea3-8a0e-c0eb94e20001"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pangkat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="0" width="77" height="14" uuid="59a5f61a-0560-45ac-8929-d7f1c81d8fa5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Shift]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<textField>
+				<reportElement x="125" y="0" width="84" height="17" uuid="35115aa2-c24d-4f57-a9f5-20d840eb5d00"/>
+				<textFieldExpression><![CDATA[$F{id_dokter}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="222" y="4" width="71" height="13" uuid="e113763d-504e-42d7-a473-28a9c2f08c45"/>
+				<textFieldExpression><![CDATA[$F{nama_dokter}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="2" width="46" height="15" uuid="ac4f1c1b-3cb0-465f-8a2c-d733a9d22062"/>
+				<textFieldExpression><![CDATA[$F{pangkat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="388" y="1" width="77" height="15" uuid="cb113b12-a3fb-4d9b-8ae7-0023a3e59ead"/>
+				<textFieldExpression><![CDATA[$F{shift}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="124" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="9b17435f-9a9b-41ac-9a07-5f76edd01a17"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="517" y="0" width="40" height="20" forecolor="#736343" uuid="62083318-ca19-43e1-80f8-c6090eafb2d4"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="437" y="0" width="80" height="20" forecolor="#736343" uuid="47490ec8-9b16-4310-86a5-dbeca1222b68"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="21" y="0" width="125" height="24" uuid="2a50452c-7927-406b-8905-4bfe17da77c1"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE", new Locale("id", "ID")).format(new java.util.Date()) + "," + new SimpleDateFormat("dd MMMM yyyy", new Locale("id")).format(new java.util.Date())]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

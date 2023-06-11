@@ -9,7 +9,7 @@ import java.awt.Container;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-
+import javax.swing.JCheckBox;
 
 /**
  *
@@ -31,6 +31,15 @@ public class reset {
         if (component instanceof JComboBox) {
             JComboBox comboBox = (JComboBox) component;
             comboBox.setSelectedIndex(0);
+        } else if (component instanceof Container) {
+            resetTextFields((Container) component);
+        }
+    }
+    
+    for (Component component : components) {
+        if (component instanceof JCheckBox) {
+            JCheckBox checkBox = (JCheckBox) component;
+            checkBox.setSelected(false);
         } else if (component instanceof Container) {
             resetTextFields((Container) component);
         }

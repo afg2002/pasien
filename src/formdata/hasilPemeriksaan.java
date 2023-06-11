@@ -10,10 +10,19 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -90,6 +99,7 @@ public class hasilPemeriksaan extends javax.swing.JFrame {
         tNamaPasien = new javax.swing.JTextField();
         tKeluhanPasien = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        bReset1 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -104,7 +114,7 @@ public class hasilPemeriksaan extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -218,6 +228,13 @@ public class hasilPemeriksaan extends javax.swing.JFrame {
 
         jLabel9.setText("Keluhan Pasien");
 
+        bReset1.setText("Cetak");
+        bReset1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bReset1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -256,7 +273,9 @@ public class hasilPemeriksaan extends javax.swing.JFrame {
                         .addComponent(bReset)
                         .addGap(61, 61, 61)))
                 .addGap(0, 36, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bReset1)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(46, 46, 46))
         );
         layout.setVerticalGroup(
@@ -298,7 +317,9 @@ public class hasilPemeriksaan extends javax.swing.JFrame {
                             .addComponent(bReset)
                             .addComponent(bHapus)))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bReset1)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -394,6 +415,20 @@ public class hasilPemeriksaan extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_bCariActionPerformed
 
+    private void bReset1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReset1ActionPerformed
+        String path =".\\src\\laporan\\pemeriksaan.jasper";
+        JasperReport reports; 
+        try {
+            reports = (JasperReport) JRLoader.loadObjectFromFile(path);
+            JasperPrint jprint = JasperFillManager.fillReport(path, null,conn);
+            JasperViewer jviewer = new JasperViewer(jprint,false);
+            jviewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            jviewer.setVisible(true);
+        } catch (JRException ex) {
+            Logger.getLogger(hasilPemeriksaan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bReset1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -441,6 +476,7 @@ public class hasilPemeriksaan extends javax.swing.JFrame {
     private javax.swing.JButton bEdit;
     private javax.swing.JButton bHapus;
     private javax.swing.JButton bReset;
+    private javax.swing.JButton bReset1;
     private javax.swing.JButton bTambah;
     private javax.swing.ButtonGroup bgPembayaran;
     private javax.swing.JComboBox<String> cTensiDarah;
