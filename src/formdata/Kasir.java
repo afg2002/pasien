@@ -50,7 +50,8 @@ public class Kasir extends javax.swing.JFrame {
         Object[] Baris = {"ID Invoice","ID Pasien", "Nama Pasien", "Tagihan Pasien","Pembayaran","Status Pembayaran","Total Biaya", "Cash", "Kembalian"};
         tabmode  = new DefaultTableModel(null, Baris);
         tKasir.setModel(tabmode);
-        String sql = "SELECT kasir.id_invoice, pasien.id_pasien, pasien.nama_pasien, kasir.tagihan_pasien, pasien.pembayaran, kasir.status_pembayaran, kasir.total_biaya, kasir.cash, kasir.kembalian FROM kasir INNER JOIN pasien ON kasir.id_pasien = pasien.id_pasien";
+        String sql = "SELECT kasir.id_invoice, pasien.id_pasien, pasien.nama_pasien, kasir.tagihan_pasien, "
+                + "pasien.pembayaran, kasir.status_pembayaran, kasir.total_biaya, kasir.cash, kasir.kembalian FROM kasir INNER JOIN pasien ON kasir.id_pasien = pasien.id_pasien";
         try{
             Statement stat = conn.createStatement();
             ResultSet res = stat.executeQuery(sql);
@@ -111,6 +112,9 @@ public class Kasir extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        bCari = new javax.swing.JButton();
+        tCari = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -280,6 +284,15 @@ public class Kasir extends javax.swing.JFrame {
             }
         });
 
+        bCari.setText("Cari Data");
+        bCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCariActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Cari");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -288,8 +301,8 @@ public class Kasir extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 6, Short.MAX_VALUE)
                         .addComponent(bTambah)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bEdit)
@@ -297,7 +310,11 @@ public class Kasir extends javax.swing.JFrame {
                         .addComponent(bHapus)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bReset)
-                        .addGap(89, 89, 89))
+                        .addGap(89, 89, 89)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)
+                        .addGap(304, 304, 304))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -332,28 +349,22 @@ public class Kasir extends javax.swing.JFrame {
                                     .addComponent(tKembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)))
-                .addGap(16, 16, 16))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tCari, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(bCari)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -392,13 +403,25 @@ public class Kasir extends javax.swing.JFrame {
                             .addComponent(jLabel11)
                             .addComponent(tKembalian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bTambah)
                             .addComponent(bEdit)
                             .addComponent(bReset)
-                            .addComponent(bHapus))
-                        .addGap(19, 19, 19))))
+                            .addComponent(bHapus)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(tCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bCari))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3))))
+                .addGap(19, 19, 19))
         );
 
         pack();
@@ -570,6 +593,42 @@ public class Kasir extends javax.swing.JFrame {
             Logger.getLogger(Kasir.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void bCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCariActionPerformed
+        String cari = tCari.getText().trim(); // Menghapus spasi di awal dan akhir input
+        String sql;
+
+        if (cari.isEmpty() || cari.equals("*")) {
+           sql = "SELECT kasir.id_invoice, pasien.id_pasien, pasien.nama_pasien, kasir.tagihan_pasien, "
+                + "pasien.pembayaran, kasir.status_pembayaran, kasir.total_biaya, kasir.cash, kasir.kembalian FROM kasir INNER JOIN pasien ON kasir.id_pasien = pasien.id_pasien";
+        } else {
+             sql = "SELECT kasir.id_invoice, pasien.id_pasien, pasien.nama_pasien, kasir.tagihan_pasien, "
+                + "pasien.pembayaran, kasir.status_pembayaran, kasir.total_biaya, kasir.cash, kasir.kembalian FROM kasir INNER JOIN pasien ON kasir.id_pasien = pasien.id_pasien WHERE id_invoice = " +cari;
+        }
+
+        try {
+            Statement stat = conn.createStatement();
+            ResultSet res = stat.executeQuery(sql);
+            DefaultTableModel tabmode = (DefaultTableModel) tKasir.getModel();
+            tabmode.setRowCount(0); // Menghapus semua baris pada tabel
+
+            while(res.next()){
+                 String a = res.getString("id_invoice");
+                String b= res.getString("id_pasien");
+                String c= res.getString("nama_pasien");
+                String d = res.getString("tagihan_pasien");
+                String e = res.getString("pembayaran");
+                String f = res.getString("status_pembayaran");
+                String g = res.getString("total_biaya");
+                String h = res.getString("cash");
+                String i = res.getString("kembalian");
+                String[] data = {a,b,c,d,e,f,g,h,i};
+                tabmode.addRow(data);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Apoteker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bCariActionPerformed
     void reset(){
         rst.resetTextFields(this.getContentPane());
     }
@@ -616,6 +675,7 @@ public class Kasir extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bCari;
     private javax.swing.JButton bCariPasien;
     private javax.swing.JButton bEdit;
     private javax.swing.JButton bHapus;
@@ -631,6 +691,7 @@ public class Kasir extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -643,6 +704,7 @@ public class Kasir extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField tCari;
     private javax.swing.JTextField tCash;
     private javax.swing.JTextField tIdInvoice;
     private javax.swing.JTextField tIdPasien;

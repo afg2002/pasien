@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4e5e3ffe-b5c5-4e0f-b82a-d368780b5882">
 	<property name="ireport.zoom" value="1.4641000000000008"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="121"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -15,8 +15,7 @@
 	</style>
 	<subDataset name="Pasien" uuid="0f795791-53f5-467d-9c64-6149935fabe8">
 		<queryString language="SQL">
-			<![CDATA[SELECT * FROM PASIEN
-]]>
+			<![CDATA[SELECT * FROM PASIEN]]>
 		</queryString>
 		<field name="id_pasien" class="java.lang.Integer">
 			<fieldDescription><![CDATA[]]></fieldDescription>
@@ -53,8 +52,7 @@
 		</field>
 	</subDataset>
 	<queryString>
-		<![CDATA[SELECT * FROM PASIEN
-]]>
+		<![CDATA[SELECT * FROM PASIEN]]>
 	</queryString>
 	<field name="id_pasien" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -260,7 +258,36 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="124" splitType="Stretch"/>
+		<band height="196" splitType="Stretch">
+			<staticText>
+				<reportElement x="415" y="81" width="139" height="20" uuid="9772ef28-b756-4a37-82fc-638de14476c6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[KA Rekam Medis]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="61" width="139" height="20" uuid="97ed0335-d5b6-4165-bcbc-626bf717ae1c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Mengetahui]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="173" width="139" height="20" uuid="b328fdc6-a35a-4675-8a78-237ba8de0530"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Ipit]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="415" y="23" width="139" height="27" uuid="994bbff8-0c37-46b1-8215-a3b7858779b2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Jakarta, "+new SimpleDateFormat("EEEE dd MMMM yyyy", new Locale("id")).format(new Date())]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
@@ -279,11 +306,6 @@
 						<font size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-				</textField>
-				<textField pattern="dd/MM/yyyy">
-					<reportElement x="21" y="0" width="125" height="24" uuid="2a50452c-7927-406b-8905-4bfe17da77c1"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[new SimpleDateFormat("EEEE", new Locale("id", "ID")).format(new java.util.Date()) + "," + new SimpleDateFormat("dd MMMM yyyy", new Locale("id")).format(new java.util.Date())]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
