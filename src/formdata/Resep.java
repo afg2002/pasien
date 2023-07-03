@@ -105,6 +105,9 @@ public class Resep extends javax.swing.JFrame {
         tCatatan = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         tTanggalResep = new com.toedter.calendar.JDateChooser();
+        jLabel6 = new javax.swing.JLabel();
+        tCari = new javax.swing.JTextField();
+        bCari = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -238,6 +241,15 @@ public class Resep extends javax.swing.JFrame {
 
         jLabel18.setText("Catatan");
 
+        jLabel6.setText("Cari");
+
+        bCari.setText("Cari Data");
+        bCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCariActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -292,24 +304,22 @@ public class Resep extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(bHapus)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bReset)))
+                        .addComponent(bReset))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tCari, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bCari)))
                 .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bTambah)
-                            .addComponent(bEdit)
-                            .addComponent(bReset)
-                            .addComponent(bHapus)))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(tIdResep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -350,8 +360,24 @@ public class Resep extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
-                            .addComponent(tCatatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(41, Short.MAX_VALUE))
+                            .addComponent(tCatatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(82, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(tCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bCari)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bTambah)
+                            .addComponent(bEdit)
+                            .addComponent(bReset)
+                            .addComponent(bHapus))
+                        .addGap(56, 56, 56))))
         );
 
         pack();
@@ -480,6 +506,47 @@ public class Resep extends javax.swing.JFrame {
             Logger.getLogger(hasilPemeriksaan.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bCariPasienActionPerformed
+
+    private void bCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCariActionPerformed
+        String cari = tCari.getText().trim(); // Menghapus spasi di awal dan akhir input
+        String sql;
+
+        if (cari.isEmpty() || cari.equals("*")) {
+            sql = "SELECT r.id_resep, r.id_dokter, d.nama_dokter, r.id_pasien, p.nama_pasien, "
+                + "r.tanggal_resep, r.obat, r.dosis, r.aturan_pakai, r.catatan "
+                + "FROM resep AS r INNER JOIN pasien AS p ON r.id_pasien = p.id_pasien "
+                + "INNER JOIN dokter AS d ON r.id_dokter = d.id_dokter;";
+        } else {
+            sql = "SELECT r.id_resep, r.id_dokter, d.nama_dokter, r.id_pasien, p.nama_pasien, "
+                + "r.tanggal_resep, r.obat, r.dosis, r.aturan_pakai, r.catatan "
+                + "FROM resep AS r INNER JOIN pasien AS p ON r.id_pasien = p.id_pasien "
+                + "INNER JOIN dokter AS d ON r.id_dokter = d.id_dokter WHERE id_resep ="+ cari;
+        }
+
+        try {
+            Statement stat = conn.createStatement();
+            ResultSet res = stat.executeQuery(sql);
+            DefaultTableModel tabmode = (DefaultTableModel) tabResep.getModel();
+            tabmode.setRowCount(0); // Menghapus semua baris pada tabel
+
+            while(res.next()){
+                String a = res.getString("id_resep");
+                String b= res.getString("id_dokter");
+                String c= res.getString("nama_dokter");
+                String d = res.getString("id_pasien");
+                String e = res.getString("nama_pasien");
+                String f = res.getString("tanggal_resep");
+                String g = res.getString("obat");
+                String h = res.getString("dosis");
+                String i = res.getString("aturan_pakai");
+                String j = res.getString("catatan");
+                String[] data = {a,b,c,d,e,f,g,h,i,j};
+                tabmode.addRow(data);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Resep.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bCariActionPerformed
     void reset(){
         rst.resetTextFields(this.getContentPane());
     }
@@ -582,6 +649,7 @@ public class Resep extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bCari;
     private javax.swing.JButton bCariDokter;
     private javax.swing.JButton bCariPasien;
     private javax.swing.JButton bEdit;
@@ -601,12 +669,14 @@ public class Resep extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField tAturanPakai;
+    private javax.swing.JTextField tCari;
     private javax.swing.JTextField tCatatan;
     private javax.swing.JTextField tDosis;
     private javax.swing.JTextField tIdDokter;
